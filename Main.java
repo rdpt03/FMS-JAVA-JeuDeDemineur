@@ -1,20 +1,61 @@
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
-
+	//symbols
+	static String EMPTY_CASE = " ";
+	static String BOMB_SYMBOL = "O";
+	static String EXPLODED_BOMB = "#";
+	static String SAFE_HIT = "X";
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
 		//generate the game
 		Map<String, Map<Integer, String>> gameArea = generateGameMap();
+		Scanner sc = new Scanner(System.in);
+		boolean playing = true;
 		
-		//print map
-		printGameMap(gameArea);
+		while(playing) {
+			//print map
+			printGameMap(gameArea,false);
+			
+			//ask to the user there to shot
+			System.out.println("Please insert where to step with the format LetterNumber (Example : A1)");
+			
+			String caseToStep = sc.nextLine().toUpperCase();
+			if(caseToStep.matches("[A-F]([1-9]|1[0-2])")) {
+				//get chars
+				String CX = String.valueOf(caseToStep.charAt(0));
+				int CY = (int) caseToStep.charAt(1) - '0';
+				
+				//check if there's a bomb
+				if(gameArea.get(CX).get(CY).equals(BOMB_SYMBOL)) {
+					//explode and end the game
+					gameArea.get(CX).put(CY, EXPLODED_BOMB);
+					printGameMap(gameArea,true);
+					System.out.println("You stepped a bomb and lost");
+					playing = false;
+				}else {
+					gameArea.get(CX).put(CY, SAFE_HIT);
+				}
+			}
+			else {
+				System.out.println("Invalid Entry!");
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	
-	static void printGameMap(Map<String, Map<Integer, String>> gameArea) {
+	static void printGameMap(Map<String, Map<Integer, String>> gameArea, boolean showBombs) {
 		//show the map
 		//print first line
 		System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+");
@@ -42,8 +83,16 @@ public class Main {
 			System.out.print("| "+line.getKey()+" |");
 			//print TODO
 			for(Map.Entry<Integer, String> caseGame : line.getValue().entrySet()) {
-				//to replace with just spaces
-				System.out.print(" "+caseGame.getValue()+" |");
+				//get the value
+				String valueToCase = caseGame.getValue();
+				
+				//check if character is a bomb
+				if(valueToCase.equals(BOMB_SYMBOL) && !showBombs) {
+					System.out.print(" "+EMPTY_CASE+" |");
+				}
+				else {
+					System.out.print(" "+caseGame.getValue()+" |");
+				}
 			}
 			System.out.println();
 		}
@@ -64,7 +113,7 @@ public class Main {
 			
 			//create the columns
 			for(int j = 1; j<=12; j++) {
-				line.getValue().put(j, " ");
+				line.getValue().put(j, EMPTY_CASE);
 			}
 			//insert into game area
 			gameArea.put(line.getKey(), line.getValue());
@@ -77,17 +126,17 @@ public class Main {
 		return gameArea;
 	}
 	
+	
 	static void insertBomb(Map<String, Map<Integer, String>> gameArea){
 		//generate where it goes
 		String xToInsert = String.valueOf((char) ('A' + (int)(Math.random() * 6)));
 		int yToInsert = 1 + (int)(Math.random() * 12);
 		
 		//check if already bomb
-		if(gameArea.get(xToInsert).get(yToInsert).equals("#")) {
-			System.out.println("HALT!");
+		if(gameArea.get(xToInsert).get(yToInsert).equals(BOMB_SYMBOL)) {
 			insertBomb(gameArea);
 		}else {
-			gameArea.get(xToInsert).put(yToInsert,"#");
+			gameArea.get(xToInsert).put(yToInsert,BOMB_SYMBOL);
 		}
 	}
 }
