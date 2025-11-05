@@ -77,12 +77,20 @@ public class Main {
 		System.out.println();
 		
 		//line loop
-		for(Map.Entry<String, Map<Integer,String>> line : gameArea.entrySet()) {
+		for(int i = 1; i <= gameArea.size(); i++) {
+			//get the line
+			String letter = String.valueOf((char)('A'+i-1));
+			Map.Entry<String, Map<Integer,String>> line = new AbstractMap.SimpleEntry<String, Map<Integer,String>>(letter,gameArea.get(i));
+			
+			//print area
 			System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+");
 			//print the letters
 			System.out.print("| "+line.getKey()+" |");
 			//print TODO
-			for(Map.Entry<Integer, String> caseGame : line.getValue().entrySet()) {
+			for(int j = 1; j <= line.getValue().size(); j++) {
+				//get the case
+				Map.Entry<Integer, String> caseGame = new AbstractMap.SimpleEntry<Integer,String>(j,line.getValue().get(j));
+				
 				//get the value
 				String valueToCase = caseGame.getValue();
 				
