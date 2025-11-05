@@ -40,6 +40,24 @@ public class Main {
 			gameArea.put(line.getKey(), line.getValue());
 			
 		}
+		//add bombs
+		for(int i=1;i<=9;i++) {
+			insertBomb(gameArea);
+		}
 		return gameArea;
+	}
+	
+	static void insertBomb(Map<String, Map<Integer, String>> gameArea){
+		//generate where it goes
+		String xToInsert = String.valueOf((char) ('A' + (int)(Math.random() * 6)));
+		int yToInsert = 1 + (int)(Math.random() * 12);
+		
+		//check if already bomb
+		if(gameArea.get(xToInsert).get(yToInsert).equals("#")) {
+			System.out.println("HALT!");
+			insertBomb(gameArea);
+		}else {
+			gameArea.get(xToInsert).put(yToInsert,"#");
+		}
 	}
 }
