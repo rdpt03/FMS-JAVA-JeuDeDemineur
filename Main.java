@@ -6,13 +6,16 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
 		//generate the game
 		Map<String, Map<Integer, String>> gameArea = generateGameMap();
 		
+		//print map
+		printGameMap(gameArea);
+	}
+	
+	
+	static void printGameMap(Map<String, Map<Integer, String>> gameArea) {
 		//show the map
-		//TODO 
-		
 		//print first line
 		System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+");
 		//print numbers 
@@ -45,8 +48,8 @@ public class Main {
 			System.out.println();
 		}
 		System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+");
-		
 	}
+	
 	
 	static Map<String, Map<Integer, String>> generateGameMap(){
 		//game area
