@@ -6,18 +6,45 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//test area
-
+		
+		//generate the game
 		Map<String, Map<Integer, String>> gameArea = generateGameMap();
 		
+		//show the map
+		//TODO 
+		
+		//print first line
+		System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+");
+		//print numbers 
+		for(int i=0; i<=gameArea.get("A").size();i++) {
+			//0 -> "|   |"
+			if(i==0) {
+				System.out.print("|   |");
+			}
+			//1 to 9 -> "| n |"
+			else if(1 <= i && i <= 9){
+				System.out.print(" "+i+" |");
+			}//10 or more -> "| nn|"
+			else {
+				System.out.print(" "+i+"|");
+			}
+		}
+		
+		System.out.println();
+		
+		//line loop
 		for(Map.Entry<String, Map<Integer,String>> line : gameArea.entrySet()) {
-			System.out.println("--------------------------------");
-			System.out.print("|"+line.getKey()+"|");
+			System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+");
+			//print the letters
+			System.out.print("| "+line.getKey()+" |");
+			//print TODO
 			for(Map.Entry<Integer, String> caseGame : line.getValue().entrySet()) {
-				System.out.print(caseGame.getValue()+"|");
+				//to replace with just spaces
+				System.out.print(" "+caseGame.getValue()+" |");
 			}
 			System.out.println();
 		}
+		System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+");
 		
 	}
 	
